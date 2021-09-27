@@ -12,4 +12,8 @@ contract AppNote {
     
     mapping(address => Note) notes;
 
+    constructor() {
+        owner = msg.sender;
+    }
+    
 }

@@ -32,4 +32,33 @@ contract AppNote {
         notes[msg.sender] = newNote;
     }
     
+    function changeNote(
+        address accountAddr,
+        string memory name,
+        string memory surname,
+        uint8 age
+    ) public {
+        require(
+            notes[msg.sender].accountAddr != address(0) &&
+                (msg.sender == owner ||
+                    msg.sender == notes[accountAddr].accountAddr)
+        );
+
+        if (accountAddr != address(0)) {
+            notes[msg.sender].accountAddr = accountAddr;
+        }
+
+        if (bytes(name).length != 0) {
+            notes[msg.sender].name = name;
+        }
+
+        if (bytes(surname).length != 0) {
+            notes[msg.sender].surname = surname;
+        }
+
+        if (age > 0) {
+            notes[msg.sender].age = age;
+        }
+    }
+
 }

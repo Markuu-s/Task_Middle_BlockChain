@@ -16,4 +16,27 @@ describe("AppNote", () => {
     it("Check owner", async () => {
         expect(await appNote.owner()).to.equal(accounts[0].address)
     })
+
+    it("Check functions addNote and getNote", async () => {
+        const addressNote = accounts[0].address
+        const nameNote = "Mark"
+        const surnameNote = "Esayan"
+        const ageNote = 18
+
+        await appNote.connect(accounts[1]).addNote(addressNote, nameNote, surnameNote, ageNote)
+        data = await appNote.connect(accounts[1]).getNote(accounts[1].address)
+
+        checkData = () => {
+            expect(data['accountAddr']).to.equal(addressNote)
+            expect(data['name']).to.equal(nameNote)
+            expect(data['surname']).to.equal(surnameNote)
+            expect(data['age']).to.equal(ageNote)
+        }
+        checkData()
+
+        data = await appNote.connect(accounts[0]).getNote(accounts[1].address)
+        console.log(data)
+        checkData()
+    })
+    
 })

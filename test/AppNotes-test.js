@@ -18,13 +18,13 @@ describe("AppNote", () => {
     })
 
     it("Check functions addNote and getNote", async () => {
-        const addressNote = accounts[0].address
+        const addressNote = accounts[1].address
         const nameNote = "Mark"
         const surnameNote = "Esayan"
         const ageNote = 18
 
-        await appNote.connect(accounts[1]).addNote(addressNote, nameNote, surnameNote, ageNote)
-        data = await appNote.connect(accounts[1]).getNote(accounts[1].address)
+        await appNote.connect(accounts[1]).addNote(nameNote, surnameNote, ageNote)
+        data = await appNote.connect(accounts[5]).getNote(accounts[1].address)
 
         checkData = () => {
             expect(data['accountAddr']).to.equal(addressNote)

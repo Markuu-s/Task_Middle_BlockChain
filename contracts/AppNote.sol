@@ -17,17 +17,15 @@ contract AppNote {
     }
     
     function addNote(
-        address accountAddr,
         string memory name,
         string memory surname,
         uint8 age
     ) public {
-        require(accountAddr != address(0));
         require(bytes(name).length > 0);
         require(bytes(surname).length > 0);
         require(age != 0);
 
-        Note memory newNote = Note(accountAddr, name, surname, age);
+        Note memory newNote = Note(msg.sender, name, surname, age);
 
         notes[msg.sender] = newNote;
     }
@@ -39,25 +37,25 @@ contract AppNote {
         uint8 age
     ) public {
         require(
-            notes[msg.sender].accountAddr != address(0) &&
+            notes[accountAddr].accountAddr != address(0) &&
                 (msg.sender == owner ||
-                    msg.sender == notes[accountAddr].accountAddr)
+                    msg.sender == accountAddr)
         );
 
         if (accountAddr != address(0)) {
-            notes[msg.sender].accountAddr = accountAddr;
+            notes[accountAddr].accountAddr = accountAddr;
         }
 
         if (bytes(name).length != 0) {
-            notes[msg.sender].name = name;
+            notes[accountAddr].name = name;
         }
 
         if (bytes(surname).length != 0) {
-            notes[msg.sender].surname = surname;
+            notes[accountAddr].surname = surname;
         }
 
         if (age > 0) {
-            notes[msg.sender].age = age;
+            notes[accountAddr].age = age;
         }
     }
 

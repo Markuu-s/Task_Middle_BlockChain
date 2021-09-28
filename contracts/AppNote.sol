@@ -62,7 +62,7 @@ contract AppNote {
     }
 
     function getNote(address accountAddr) public view returns (Note memory) {
-        require(notes[msg.sender].accountAddr != address(0));
+        require(notes[accountAddr].accountAddr != address(0));
         return notes[accountAddr];
     }
 

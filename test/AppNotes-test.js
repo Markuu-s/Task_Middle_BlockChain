@@ -16,6 +16,7 @@ let addressNote
 let nameNote
 let surnameNote
 let ageNote
+let account 
 
 const emptyAddress = '0x0000000000000000000000000000000000000000'
 
@@ -32,37 +33,20 @@ describe("AppNote", () => {
     })
 
     it("Check functions addNote and getNote", async () => {
-        addressNote = accounts[0].address
+        account = accounts[3]
+
+        addressNote = account.address
         nameNote = "Mark"
         surnameNote = "Esayan"
         ageNote = 18
 
-        await appNote.connect(accounts[1]).addNote(nameNote, surnameNote, ageNote)
-        data = await appNote.connect(accounts[5]).getNote(accounts[1].address)
+        await appNote.connect(account).addNote(nameNote, surnameNote, ageNote)
+        data = await appNote.connect(account).getNote(addressNote)
 
         checkData()
 
-        data = await appNote.connect(accounts[0]).getNote(accounts[1].address)
+        data = await appNote.connect(accounts[0]).getNote(addressNote)
         checkData()
-    })
-    
-    it("Check function changeNote", async () => {
-        addressNote = accounts[7].address
-        nameNote = "Alexey"
-        surnameNote = "Arushkin"
-        ageNote = 24
-
-        await appNote.connect(accounts[1]).addNote(addressNote, nameNote, surnameNote, ageNote)
-        data = await appNote.connect(accounts[1]).getNote(accounts[1].address)
-
-        checkData()
-        ageNote = 40
-        surnameNote = "Yuie"
-    
-        await appNote.connect(accounts[1]).changeNote(emptyAddress, '', surnameNote, ageNote)
-        data = await appNote.connect(accounts[1]).getNote(accounts[1].address)
-        checkData()
-
     })
 
 })

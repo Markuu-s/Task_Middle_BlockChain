@@ -12,19 +12,36 @@ beforeEach(async () => {
     await appNote.deployed()
 })
 
+let addressNote
+let nameNote
+let surnameNote
+let ageNote
+let account 
+
+const emptyAddress = '0x0000000000000000000000000000000000000000'
+
+checkData = () => {
+    expect(data['accountAddr']).to.equal(addressNote)
+    expect(data['name']).to.equal(nameNote)
+    expect(data['surname']).to.equal(surnameNote)
+    expect(data['age']).to.equal(ageNote)
+}
+
 describe("AppNote", () => {
     it("Check owner", async () => {
         expect(await appNote.owner()).to.equal(accounts[0].address)
     })
 
     it("Check functions addNote and getNote", async () => {
-        const addressNote = accounts[1].address
-        const nameNote = "Mark"
-        const surnameNote = "Esayan"
-        const ageNote = 18
+        account = accounts[3]
 
-        await appNote.connect(accounts[1]).addNote(nameNote, surnameNote, ageNote)
-        data = await appNote.connect(accounts[5]).getNote(accounts[1].address)
+        addressNote = account.address
+        nameNote = "Mark"
+        surnameNote = "Esayan"
+        ageNote = 18
+
+        await appNote.connect(account).addNote(nameNote, surnameNote, ageNote)
+        data = await appNote.connect(account).getNote(addressNote)
 
         checkData = () => {
             expect(data['accountAddr']).to.equal(addressNote)
@@ -34,9 +51,8 @@ describe("AppNote", () => {
         }
         checkData()
 
-        data = await appNote.connect(accounts[0]).getNote(accounts[1].address)
-        console.log(data)
+        data = await appNote.connect(accounts[0]).getNote(addressNote)
         checkData()
     })
-    
+
 })

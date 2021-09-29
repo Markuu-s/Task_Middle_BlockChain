@@ -48,5 +48,31 @@ describe("AppNote", () => {
         data = await appNote.connect(accounts[0]).getNote(addressNote)
         checkData()
     })
+    
+    it("Check function changeNote", async () => {
+        account = accounts[7]
+
+        addressNote = account.address
+        nameNote = "Alexey"
+        surnameNote = "Arushkin"
+        ageNote = 24
+
+        await appNote.connect(account).addNote(nameNote, surnameNote, ageNote)
+        data = await appNote.connect(account).getNote(addressNote)
+
+        checkData()
+
+        ageNote = 40
+        surnameNote = "Yuie"
+
+        await appNote.connect(account).changeNote(addressNote, '', surnameNote, ageNote)
+        data = await appNote.connect(account).getNote(addressNote)
+        checkData()
+
+        surname = 'Aboba'
+        await appNote.connect(account).changeNote(addressNote, '', surnameNote, ageNote)
+        data = await appNote.connect(accounts[0]).getNote(addressNote)
+        checkData()
+    })
 
 })

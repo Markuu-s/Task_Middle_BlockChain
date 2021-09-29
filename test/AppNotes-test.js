@@ -75,4 +75,34 @@ describe("AppNote", () => {
         checkData()
     })
 
+    it("Check require of function changeNote", async () => {
+        account = accounts[5]
+        addressNote = account.address
+        nameNote = "Kirill"
+        surnameNote = "Obramov"
+        ageNote = 44
+
+        await appNote.connect(account).addNote(nameNote, surnameNote, ageNote)
+        data = await appNote.connect(account).getNote(addressNote)
+        checkData()
+
+
+        ageNote = 13
+        try {
+            await appNote.connect(accounts[3]).changeNote(addressNote, '', '', ageNote)
+            throw "error"
+        }
+        catch (e) {
+            if (e == "error") {
+                expect(0, "Error. Other user(not owner) could not change note").to.equal(1)
+            }
+        }
+
+        // Owner can change data
+        ageNote = 33
+        await appNote.connect(accounts[0]).changeNote(addressNote, '', '', ageNote)
+        data = await appNote.connect(accounts[0]).getNote(addressNote)
+        checkData()
+    })
+
 })
